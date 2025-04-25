@@ -276,7 +276,7 @@ SOAPAction: "http://tempuri.org/IMyService/GetUser"
 
 ![](Docs/Media/9.jpg)
 
-### Additional Resources
+# Additional Resources
 This section includes tools and resources that, while not essential for every project, may prove useful depending on your needs. During the development of my project, I found these items difficult to locate, so I’ve included them here to help others who might encounter similar challenges.
 
 ## Double encoding of XML
