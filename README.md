@@ -255,8 +255,8 @@ This Envelope structure is mandatory for every SOAP request.
 
 To test our service we need to make following call.
 ```
-POST /MyService.svc HTTP/1.1
-Host: https://localhost:32769/ServicePath.asmx
+POST /ServicePath.asmx HTTP/1.1
+Host: https://localhost:32769
 Content-Type: text/xml; charset=utf-8
 SOAPAction: "http://tempuri.org/IMyService/GetUser"
 
@@ -275,6 +275,67 @@ SOAPAction: "http://tempuri.org/IMyService/GetUser"
 ![](Docs/Media/8.jpg)
 
 ![](Docs/Media/9.jpg)
+
+### Additional Resources
+This section includes tools and resources that, while not essential for every project, may prove useful depending on your needs. During the development of my project, I found these items difficult to locate, so I’ve included them here to help others who might encounter similar challenges.
+
+## Double encoding of XML
+**Double encoding in XML** refers to the practice of encoding specific characters or entities multiple times, often resulting in a redundant encoding process. This typically manifests in a manner similar to the following.
+
+Normal XML.
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+    <title>The Great Gatsby</title>
+    <author>F. Scott Fitzgerald</author>
+    <genre>Fiction</genre>
+    <published>1925</published>
+    <price currency="USD">10.99</price>
+</book>
+```
+
+Now we want to encode our xml. For this we will use table below.
+
+| Character | Encoded As |
+| --------- | ---------- |
+| `<`       | `&lt;`     |
+| `>`       | `&gt;`     |
+| `&`       | `&amp;`    |
+| `"`       | `&quot;`   |
+| `'`       | `&apos;`   |
+
+Encoded XML.
+```
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;book&gt;
+    &lt;title&gt;The Great Gatsby&lt;/title&gt;
+    &lt;author&gt;F. Scott Fitzgerald&lt;/author&gt;
+    &lt;genre&gt;Fiction&lt;/genre&gt;
+    &lt;published&gt;1925&lt;/published&gt;
+    &lt;price currency=&quot;USD&quot;&gt;10.99&lt;/price&gt;
+&lt;/book&gt;
+```
+
+But now we want to encode once more. This time is easy. We need to add &amp; before every special sign (Table above).
+
+Double encoded XML.
+```
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;book&amp;gt;
+    &amp;lt;title&amp;gt;The Great Gatsby&amp;lt;/title&amp;gt;
+    &amp;lt;author&amp;gt;F. Scott Fitzgerald&amp;lt;/author&amp;gt;
+    &amp;lt;genre&amp;gt;Fiction&amp;lt;/genre&amp;gt;
+    &amp;lt;published&amp;gt;1925&amp;lt;/published&amp;gt;
+    &amp;lt;price currency=&amp;quot;USD&amp;quot;&amp;gt;10.99&amp;lt;/price&amp;gt;
+&amp;lt;/book&amp;gt;
+```
+
+This proces can be repeted as many times you want. 
+
+## XSD  
+**XSD**, or **XML Schema Definition**, is utilized to define the **structure**, **data types**, and **constraints** of XML messages exchanged between web services.
+
+In some cases, you may encounter .xsd files. When this occurs, you can leverage the `xsd.exe` tool to work with these files. Further details about this tool can be found in the [XSD.exe Documentation](https://learn.microsoft.com/en-us/dotnet/standard/serialization/xml-schema-definition-tool-xsd-exe).
 
 # Final words
 That concludes this article. You should now be equipped to set up your own SOAP API. If you have any questions or notice any mistakes, please feel free to leave a comment. Best of luck, and enjoy working on your implementation!
